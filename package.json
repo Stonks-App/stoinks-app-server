@@ -1,0 +1,30 @@
+{
+	"name": "stonks-go-brrr-api",
+	"version": "1.0.0",
+	"description": "\"Stonks always go up\"",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon src/server.js --legacy-watch "
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ChiragThesia/stonks-go-brrr-api.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ChiragThesia/stonks-go-brrr-api/issues"
+	},
+	"homepage": "https://github.com/ChiragThesia/stonks-go-brrr-api#readme",
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	},
+	"dependencies": {
+		"apollo-errors": "^1.9.0",
+		"apollo-resolvers": "^1.4.2",
+		"apollo-server-express": "^2.16.0",
+		"express": "^4.17.1",
+		"graphql": "^15.3.0"
+	}
+}

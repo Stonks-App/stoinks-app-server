@@ -3,19 +3,11 @@ services:
   node:
     build:
       context: .
-      dockerfile: .docker/node.dockerfile
+      dockerfile: Dockerfile
+    image: nodejscn/node
+    container_name: nodejs
+    restart: unless-stopped
     volumes:
-      - ./:/app
-      - /app/node_modules
+      - .:/src
     ports:
       - "4000:4000"
-    links:
-      - mongo
-  mongo:
-    build:
-      context: .
-      dockerfile: .docker/mongo.dockerfile
-    ports:
-      - "27017:27017"
-    volumes:
-      - /data/mongodb:/data/db

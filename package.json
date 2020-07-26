@@ -21,6 +21,7 @@
 		"nodemon": "^2.0.4"
 	},
 	"dependencies": {
+		"@sentry/node": "^5.20.0",
 		"apollo-errors": "^1.9.0",
 		"apollo-resolvers": "^1.4.2",
 		"apollo-server-express": "^2.16.0",

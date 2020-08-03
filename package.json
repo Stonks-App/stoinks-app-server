@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "\"Stonks always go up\"",
 	"main": "index.js",
+	"engines": {
+		"node": "12.18.2"
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "nodemon src/server.js --legacy-watch "

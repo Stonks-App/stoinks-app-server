@@ -1,8 +1,9 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
+const Sentry = require('@sentry/node');
 const cors = require('cors');
 
-const port = process.env.PORT || 4000;
+Sentry.init({ dsn: 'https://50d76930b7304c4c94d6162db957ac8b@o425237.ingest.sentry.io/5364716' });
 
 const typeDefs = gql`
 	type Query {
@@ -23,6 +24,5 @@ const server = new ApolloServer({ typeDefs: typeDefs, resolvers: resolvers });
 
 server.applyMiddleware({ app });
 app.use(cors());
-app.listen(port, () => {
-	console.log(`🚀Server is ready at http://localhost:${port}${server.graphqlPath}`);
-});
+
+module.exports = { app, server };

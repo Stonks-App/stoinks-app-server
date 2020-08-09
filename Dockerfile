@@ -15,5 +15,5 @@ COPY --chown=node:node . .
 
 EXPOSE 4000
 
-CMD ["nodemon", "index.js"]
+CMD ["nodemon", "index.ts"]
 

@@ -1,19 +1,18 @@
 FROM node:12
 
-RUN npm i -g nodemon
-
 USER root
 
 WORKDIR /usr/stonks-go-brrr-api/
 
-COPY --chown=node:node package-lock.json package.json ./
+COPY --chown=node:node package.json ./
 
-RUN npm ci
+RUN npm install
 
-COPY --chown=node:node . . 
+ADD . /usr/stonks-go-brrr-api/
 
+RUN npm run build
 
 EXPOSE 4000
+CMD ["npm", "start"]
 
-CMD ["nodemon", "index.js"]
 

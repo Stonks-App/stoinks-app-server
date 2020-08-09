@@ -14,7 +14,7 @@ const schema = makeExecutableSchema({
 })
 
 const app = express();
-const server = new ApolloServer({ typeDefs: typeDefs, resolvers: resolvers });
+const server = new ApolloServer({ schema });
 
 server.applyMiddleware({ app });
 app.use(cors());

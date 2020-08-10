@@ -1,5 +1,7 @@
-import {defaultTypeDefs} from './defaults/defaultTypeDefs'
-import {typeDefs as exampleTypeDefs, resolvers as exampleResolvers} from './exampleModule/exampleModule'
+import {defaultTypeDefs} from './defaults/defaultTypeDefs';
+import {typeDefs as exampleTypeDefs, resolvers as exampleResolvers} from './exampleModule/exampleModule';
+import {typeDefs as dailyTypeDefs, resolvers as dailyResolvers} from './dailyModule/dailyModule';
+import { AlphaVantageAPI } from './dataSources/AlphaVantageAPI';
 
 const baseTypeDef = `
     type Query {
@@ -13,7 +15,8 @@ const baseTypeDef = `
 export const typeDefs = [
     baseTypeDef,
     defaultTypeDefs,
-    exampleTypeDefs
+    exampleTypeDefs,
+    dailyTypeDefs
 ]
 
 const baseResolver = {
@@ -23,5 +26,12 @@ const baseResolver = {
 
 export const resolvers = {
     ...baseResolver,
-    ...exampleResolvers
+    ...exampleResolvers,
+    ...dailyResolvers
+};
+
+export const dataSources = () => {
+    return {
+        alphaVantageAPI: new AlphaVantageAPI()
+    }
 };

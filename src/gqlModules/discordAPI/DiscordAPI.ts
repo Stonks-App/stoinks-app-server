@@ -7,15 +7,13 @@ export class DiscordAPI extends RESTDataSource {
 	}
 
 	willSendRequest(request: any) {
-		request.headers.set('Authorization', 'NzI2ODgzMjIxODI4MDEwMDg0.XxHmVQ.o4iod2dJ-eNyXi9nsm8yoHERS48');
+		request.headers.set('Authorization', process.env.DISCORD_AUTH_TOKEN);
 	}
+
 	//const nexsus-swing-channel = 694323672483364874
 	async getDiscordMessages(channelID: number, numMessages: number) {
 		const data = await this.get(`/channels/${channelID}/messages?limit=${numMessages}`);
 		//@ts-ignore
-		console.log(data);
-		//@ts-ignore
-
 		return data;
 	}
 }

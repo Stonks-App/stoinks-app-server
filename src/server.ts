@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express from 'express';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import * as Sentry from '@sentry/node';

@@ -12,7 +12,7 @@ export class AlphaVantageAPI extends RESTDataSource {
         const AlphaVantage = Data.AlphaVantage;
         this.api = new AlphaVantage("I73R9VKBL7Z5J4KM");
     }
-  
+    
     private dailyTimeSeriesLoader = new DataLoader(async (stockSymbols: readonly string[]) => {
         return stockSymbols.map( async (symbol) => {
             return await this.api.timeSeriesDaily(symbol, true, true);

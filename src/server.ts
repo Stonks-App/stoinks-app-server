@@ -17,7 +17,9 @@ const schema = makeExecutableSchema({
 const app = express();
 const server = new ApolloServer({
 	schema,
-	dataSources
+	dataSources,
+	playground: true,
+	introspection: true
 });
 
 server.applyMiddleware({ app });

@@ -15,13 +15,15 @@ const schema = makeExecutableSchema({
 });
 
 const app = express();
+app.use(cors());
 const server = new ApolloServer({
 	schema,
-	dataSources
+	dataSources,
+	playground: true,
+	introspection: true
 });
 
-server.applyMiddleware({ app });
-app.use(cors());
+server.applyMiddleware({ app, path: '/graphql' });
 
 app.listen(port, () => {
 	console.log(`🚀Server is ready at http://localhost:${port}${server.graphqlPath}`);

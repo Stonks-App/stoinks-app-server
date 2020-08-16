@@ -13,9 +13,12 @@ export class AlphaVantageAPI extends RESTDataSource {
 	}
 	//@ts-ignore
 	private dailyTimeSeriesLoader = new DataLoader(async (stockSymbols: string[]) => {
-		return stockSymbols.map(async (symbol) => {
+		const data = stockSymbols.map(async (symbol) => {
 			return await this.api.timeSeriesDaily(symbol, true, true);
 		});
+		console.log(data);
+
+		return data;
 	});
 
 	async getDailyTimeSeries(stockSymbol: string) {

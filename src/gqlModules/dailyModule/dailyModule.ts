@@ -17,15 +17,15 @@ export const typeDefs = `
 `;
 
 export const resolvers = {
-	Query: {
-		// @ts-ignore
-		dailyData: async (
-			_source: any,
-			{ stockSymbol }: { stockSymbol: String },
-			//@ts-ignore
-			{ dataSources: { alphaVantageAPI } }
-		) => {
-			return await alphaVantageAPI.getDailyTimeSeries(stockSymbol);
-		}
-	}
+  Query: {
+    // @ts-ignore
+    dailyData: async (
+      _source: any,
+      { stockSymbol }: { stockSymbol: String },
+      //@ts-ignore
+      { dataSources: { alphaVantageAPI } }
+    ) => {
+      return await alphaVantageAPI.getDailyTimeSeries(stockSymbol);
+    }
+  }
 };

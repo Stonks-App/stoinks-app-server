@@ -15,14 +15,14 @@ export const typeDefs = `
 `;
 
 export const resolvers = {
-	Query: {
-		getDiscordMessages: async (
-			_source: any,
-			{ channelID, numMessages }: { channelID: number; numMessages: number },
-			//@ts-ignore
-			{ dataSources: { discordAPI } }
-		) => {
-			return await discordAPI.getDiscordMessages(channelID, numMessages);
-		}
-	}
+  Query: {
+    getDiscordMessages: async (
+      _source: any,
+      { channelID, numMessages }: { channelID: number; numMessages: number },
+      //@ts-ignore
+      { dataSources: { discordAPI } }
+    ) => {
+      return await discordAPI.getDiscordMessages(channelID, numMessages);
+    }
+  }
 };

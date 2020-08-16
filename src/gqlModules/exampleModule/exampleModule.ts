@@ -18,16 +18,16 @@ export const typeDefs = `
 export const resolvers = {
   Query: {
     exampleModule: () => {
-      return {message: 'hello world'}
+      return { message: 'hello world' };
     }
   },
-  Mutation:{
-    exampleMutation: (_: any, {text} : {text: string}) => {
+  Mutation: {
+    exampleMutation: (_: any, { text }: { text: string }) => {
       return {
         code: '200',
         success: true,
         message: `hello ${text}`
-      }
+      };
     }
   }
 };

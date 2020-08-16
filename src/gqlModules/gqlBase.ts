@@ -1,7 +1,16 @@
 import { defaultTypeDefs } from './defaults/defaultTypeDefs';
-import { typeDefs as exampleTypeDefs, resolvers as exampleResolvers } from './exampleModule/exampleModule';
-import { typeDefs as dailyTypeDefs, resolvers as dailyResolvers } from './dailyModule/dailyModule';
-import { typeDefs as discordTypeDefs, resolvers as discordResolvers } from './discordAPI/discordModule';
+import {
+  typeDefs as exampleTypeDefs,
+  resolvers as exampleResolvers
+} from './exampleModule/exampleModule';
+import {
+  typeDefs as dailyTypeDefs,
+  resolvers as dailyResolvers
+} from './dailyModule/dailyModule';
+import {
+  typeDefs as discordTypeDefs,
+  resolvers as discordResolvers
+} from './discordAPI/discordModule';
 import { AlphaVantageAPI } from './dataSources/AlphaVantageAPI';
 import { DiscordAPI } from './discordAPI/DiscordAPI';
 
@@ -14,22 +23,28 @@ const baseTypeDef = `
     }
 `;
 
-export const typeDefs = [ baseTypeDef, defaultTypeDefs, exampleTypeDefs, dailyTypeDefs, discordTypeDefs ];
+export const typeDefs = [
+  baseTypeDef,
+  defaultTypeDefs,
+  exampleTypeDefs,
+  dailyTypeDefs,
+  discordTypeDefs
+];
 
 const baseResolver = {
-	Query: {}
+  Query: {}
 };
 
 export const resolvers = {
-	...baseResolver,
-	...exampleResolvers,
-	...dailyResolvers,
-	...discordResolvers
+  ...baseResolver,
+  ...exampleResolvers,
+  ...dailyResolvers,
+  ...discordResolvers
 };
 
 export const dataSources = () => {
-	return {
-		alphaVantageAPI: new AlphaVantageAPI(),
-		discordAPI: new DiscordAPI()
-	};
+  return {
+    alphaVantageAPI: new AlphaVantageAPI(),
+    discordAPI: new DiscordAPI()
+  };
 };

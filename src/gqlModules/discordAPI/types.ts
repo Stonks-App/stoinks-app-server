@@ -17,7 +17,7 @@ export type Author = {
 
 type OptionOrder = {
     operation: string, // BTO, STC
-    stockSymbol: string,
+    stockSymbol: string[],
 }
 
 export type OptionBuyOrder = OptionOrder & {

@@ -14,7 +14,7 @@ export const typeDefs = `
     }
     type OptionOrder {
         operation: String,
-        stockSymbol: String,
+        stockSymbol: [String],
         type: String,
         strikePrice: Int,
         expirationDate: String,

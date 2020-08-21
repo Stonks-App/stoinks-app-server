@@ -1,83 +1,94 @@
 import { DiscordMessage, ParsedDiscordMessage, OptionBuyOrder, OptionSellOrder } from '../types';
-import { recentSymbols, fullSymbolList } from '../../shared/stockSymbols';
+import { recentSymbols, NYSESymbolList, NASDAQSymbolList, ETFSymbolList } from '../../shared/stockSymbols';
 
+const getOperation = (messageContent: string): string => {
+    let operation = 'N/A';
+    operation = messageContent.includes('BTO') ? 'BTO' : operation;
+    operation = messageContent.includes('STC') ? 'STC' : operation;
+    return operation;
+}
 
-const containsSymbol = (messageContent: string, symbol: string): Boolean => {
+const containsSymbol = (messageContent: string[], symbol: string): Boolean => {
     return messageContent.includes(symbol);
 }
 
-
-export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
-
-    // parse order operation
-    let operation = 'N/A';
-    operation = message.content.includes('BTO') ? 'BTO' : operation
-    operation = message.content.includes('STC') ? 'STC' : operation
-
-    // parse order Symbol
-
+const getStockSymbol = (messageContent: string, operation: string): string[] => {
     let foundSymbol: string[] = [];
+
     if (operation !== 'N/A') {
-        foundSymbol = recentSymbols.filter((symbol) => containsSymbol(message.content, symbol)).sort() || []
-        if (foundSymbol.length < 1) {
-            foundSymbol = fullSymbolList.filter((symbol) => containsSymbol(message.content, symbol)).sort() || []
-            recentSymbols.push(...foundSymbol)
+        const tokenizedMessage = messageContent.split(' ');
+        foundSymbol = recentSymbols.filter((symbol) => containsSymbol(tokenizedMessage, symbol));
+        foundSymbol = foundSymbol.concat(NYSESymbolList.filter((symbol) => containsSymbol(tokenizedMessage, symbol)));
+        foundSymbol = foundSymbol.concat(NASDAQSymbolList.filter((symbol) => containsSymbol(tokenizedMessage, symbol)));
+        foundSymbol = foundSymbol.concat(ETFSymbolList.filter((symbol) => containsSymbol(tokenizedMessage, symbol)));
+    }
+    return foundSymbol;
+}
+
+const defaultOrder = {
+    operation: 'N/A',
+    stockSymbol: []
+}
+
+const getOrderType = (messageContent: string, parsedStrike: string) => {
+    let type = 'N/A';
+    type = messageContent.includes('call') ? 'CALL' : type;
+    type = messageContent.includes('put') ? 'PUT' : type;
+    if (type === 'N/A') {
+        if (parsedStrike.includes('c') || parsedStrike.includes('C')) {
+            type = 'CALL';
+        }
+        if (parsedStrike.includes('p') || parsedStrike.includes('P')) {
+            type = 'PUT';
         }
     }
 
-    let order: OptionBuyOrder | OptionSellOrder = {
-        operation: 'N/A',
-        stockSymbol: 'N/A'
-    }
+    return type;
+}
 
+const getOrderTarget = (messageContent: string) => {
+    const target: string[] = [];
+    if (messageContent.includes('target')) {
+        const targetContent = messageContent.split('target')[1];
+        const targets = targetContent.matchAll(/[\d.]+/g)
+        for (const [index] of targets) {
+            target.push(index);
+        }
+    }
+    return target;
+}
+
+export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
+    // parse order operation
+    const operation = getOperation(message.content);
+
+    // parse order Symbol
+    const stockSymbol = getStockSymbol(message.content, operation);
+
+    let order: OptionBuyOrder | OptionSellOrder = defaultOrder;
+    
     if (operation === 'STC') {
         order = {
             operation,
-            stockSymbol: foundSymbol[0] || 'N/A',
+            stockSymbol
         }
-    }
+    } else if (operation === 'BTO' && stockSymbol.length > 0) {
+        const tokenizedMessage = message.content.split(stockSymbol[0])[1].split(' ');
 
-    if (operation === 'BTO' && foundSymbol.length > 0) {
-        // parse order type
-        let type = 'N/A';
-        type = message.content.includes('call') ? 'CALL' : type
-        type = message.content.includes('put') ? 'PUT' : type
-
-        // get expiration
-        const tokenizedContent = message.content.split(foundSymbol[0])[1].split(' ');
-        const expirationDate = tokenizedContent[1];
-
-        const parsedStrike = tokenizedContent[2];
-        if (type === 'N/A') {
-            if (parsedStrike.includes('c')) {
-                type = 'CALL'
-            }
-            if (parsedStrike.includes('p')) {
-                type = 'PUT'
-            }
-        }
-
+        const expirationDate = tokenizedMessage.filter((str) => str.includes('/'))[0];
+        const parsedStrike = [tokenizedMessage[1], tokenizedMessage[2]].filter((str) => str !== expirationDate)[0];
+        const type = getOrderType(message.content, parsedStrike);
         const strikePrice = parsedStrike.replace(/[^\d.]/g,"");
-
-        // 
-        const target: string[] = [];
-        if (message.content.includes('target')) {
-            const targetContent = message.content.split('target')[1];
-            const targets = targetContent.matchAll(/[\d.]+/g)
-            for (const [index] of targets) {
-                target.push(index);
-            }
-        }
+        const target = getOrderTarget(message.content).filter((t) => parseInt(t) > 0);
 
         order = {
             operation,
+            stockSymbol,
             type,
-            stockSymbol: foundSymbol[0] || 'N/A',
             strikePrice,
             expirationDate,
             target,
         };
-
     }
 
     return {

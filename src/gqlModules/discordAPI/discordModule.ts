@@ -6,11 +6,19 @@ export const typeDefs = `
         id: String,
         content: String,
         author: Author,
-        timestamp: String
+        timestamp: String,
+        order: OptionOrder
     }
-
     type Author {
         username: String
+    }
+    type OptionOrder {
+        operation: String,
+        stockSymbol: String,
+        type: String,
+        strikePrice: Int,
+        expirationDate: String,
+        target: [String]
     }
 `;
 

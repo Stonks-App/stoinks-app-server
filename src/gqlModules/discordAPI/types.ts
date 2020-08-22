@@ -8,7 +8,7 @@ export type DiscordMessage = {
 }
 
 export type ParsedDiscordMessage = DiscordMessage & {
-    order: OptionBuyOrder | OptionSellOrder
+    order?: OptionBuyOrder | OptionSellOrder
 }
 
 export type Author = {

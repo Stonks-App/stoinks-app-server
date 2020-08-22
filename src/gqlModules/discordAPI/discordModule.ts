@@ -1,6 +1,8 @@
+import { parseMessage } from './utils/messageParser';
+
 export const typeDefs = `
     extend type Query {
-        getDiscordMessages(channelID: String, numMessages: Float): [DiscordMessage]
+        getDiscordMessages(channelID: String, numMessages: Float, parseOrders: Boolean): [DiscordMessage]
     }
     type DiscordMessage {
         id: String,
@@ -26,11 +28,12 @@ export const resolvers = {
   Query: {
     getDiscordMessages: async (
       _source: any,
-      { channelID, numMessages }: { channelID: number; numMessages: number },
+      { channelID, numMessages, parseOrders = false}: { channelID: number; numMessages: number, parseOrders: boolean },
       //@ts-ignore
-      { dataSources: { discordAPI } }
+      { dataSources: { discordAPI, TDAPI } }
     ) => {
-      return await discordAPI.getDiscordMessages(channelID, numMessages);
+      const data = await discordAPI.getDiscordMessages(channelID, numMessages)
+      return parseOrders ? data.map(parseMessage) : data;
     }
   }
 };

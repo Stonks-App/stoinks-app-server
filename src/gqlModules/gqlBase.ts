@@ -12,7 +12,7 @@ import {
   resolvers as discordResolvers
 } from './discordAPI/discordModule';
 import { AlphaVantageAPI } from './dataSources/AlphaVantageAPI';
-import { DiscordAPI } from './discordAPI/DiscordAPI';
+import { DiscordAPI } from './dataSources/DiscordAPI';
 
 const baseTypeDef = `
     type Query {

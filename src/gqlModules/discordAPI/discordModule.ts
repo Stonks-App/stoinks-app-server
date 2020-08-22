@@ -16,7 +16,7 @@ export const typeDefs = `
         operation: String,
         stockSymbol: [String],
         type: String,
-        strikePrice: Int,
+        strikePrice: String,
         expirationDate: String,
         target: [String]
     }

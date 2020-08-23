@@ -47,6 +47,6 @@ export const dataSources = () => {
   return {
     alphaVantageAPI: new AlphaVantageAPI(),
     discordAPI: new DiscordAPI(),
-    RobinhoodAPI: new RobinhoodAPI()
+    robinhoodAPI: new RobinhoodAPI()
   };
 };

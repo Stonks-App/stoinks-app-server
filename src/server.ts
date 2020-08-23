@@ -3,7 +3,8 @@ import express from 'express';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import * as Sentry from '@sentry/node';
 import cors from 'cors';
-const port = process.env.PORT || 4000;
+const port = 8080;
+import logger from './utils/log/logger';
 
 import { typeDefs, resolvers, dataSources } from './gqlModules/gqlBase';
 
@@ -26,5 +27,5 @@ server.applyMiddleware({ app });
 app.use(cors());
 
 app.listen(port, () => {
-	console.log(`🚀Server is ready at http://localhost:${port}${server.graphqlPath}`);
+	logger.info(`🚀Server is ready at http://localhost:${port}${server.graphqlPath}`);
 });

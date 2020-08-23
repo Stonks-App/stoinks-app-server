@@ -13,6 +13,7 @@ import {
 } from './discordAPI/discordModule';
 import { AlphaVantageAPI } from './dataSources/AlphaVantageAPI';
 import { DiscordAPI } from './dataSources/DiscordAPI';
+import { RobinhoodAPI } from './dataSources/RobinhoodAPI';
 
 const baseTypeDef = `
     type Query {
@@ -45,6 +46,7 @@ export const resolvers = {
 export const dataSources = () => {
   return {
     alphaVantageAPI: new AlphaVantageAPI(),
-    discordAPI: new DiscordAPI()
+    discordAPI: new DiscordAPI(),
+    robinhoodAPI: new RobinhoodAPI()
   };
 };

@@ -10,8 +10,10 @@ export class DiscordAPI extends RESTDataSource {
     request.headers.set('Authorization', process.env.DISCORD_AUTH_TOKEN);
   }
 
-	//const nexsus-swing-channel = 694323672483364874
-	async getDiscordMessages(channelID: number, numMessages: number) {
-		return await this.get(`/channels/${channelID}/messages?limit=${numMessages}`);
-	}
+  //const nexsus-swing-channel = 694323672483364874
+  async getDiscordMessages(channelID: number, numMessages: number) {
+    return await this.get(
+      `/channels/${channelID}/messages?limit=${numMessages}`
+    );
+  }
 }

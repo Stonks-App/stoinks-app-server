@@ -1,4 +1,4 @@
-import { defaultTypeDefs } from './defaults/defaultTypeDefs';
+import { defaultTypeDefs } from './shared/defaults/defaultTypeDefs';
 import {
   typeDefs as exampleTypeDefs,
   resolvers as exampleResolvers
@@ -10,10 +10,10 @@ import {
 import {
   typeDefs as discordTypeDefs,
   resolvers as discordResolvers
-} from './discordAPI/discordModule';
-import { AlphaVantageAPI } from './dataSources/AlphaVantageAPI';
-import { DiscordAPI } from './dataSources/DiscordAPI';
-import { RobinhoodAPI } from './dataSources/RobinhoodAPI';
+} from './discordModule/discordModule';
+import { AlphaVantageAPI } from './shared/dataSources/AlphaVantageAPI';
+import { DiscordAPI } from './shared/dataSources/DiscordAPI';
+import { RobinhoodAPI } from './shared/dataSources/RobinhoodAPI';
 
 const baseTypeDef = `
     type Query {

@@ -48,9 +48,10 @@ export class RobinhoodAPI extends RESTDataSource {
       });
   }
 
-  // async getPortfolio() {
-  // 	const data = await getUser().getPortfolio();
-  // 	console.log(data);
-  // 	return data;
-  // }
+  // TODO: Remove me
+  async getPortfolio() {
+    const data = await this.getUser().getPortfolio();
+    console.log(data);
+    return data;
+  }
 }

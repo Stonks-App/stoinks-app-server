@@ -4,6 +4,7 @@ import { Robinhood } from 'algotrader';
 const User = Robinhood.User;
 const Instrument = Robinhood.Instrument;
 const OptionInstrument = Robinhood.OptionInstrument;
+const OptionOrder = Robinhood.OptionOrder;
 
 import moment from 'moment';
 
@@ -54,56 +55,53 @@ export class RobinhoodAPI extends RESTDataSource {
 	}
 
 	//@ts-ignore
-	async getOptionData(stockSymbol: string, expirationDate: string, strikPrice: string, type: string) {
-		const user = await this.getUser();
-		//@ts-ignore
-		const inputExpiration = moment(expirationDate).format('yyyy-mm-dd');
-		console.log('Input EXP', inputExpiration);
-
-		const stock = await Instrument.getBySymbol(stockSymbol);
-		//@ts-ignore
-		const expiration = await OptionInstrument.getExpirations(user, stock)
-			.then((res: any) => {
-				const mainDate = res.forEach((expirationDate: any) => {
-					const date = expirationDate.toString().split(' ');
-					const pureDate = date[1] + ' ' + date[2] + ' ' + date[3];
-					console.log('Robin EXP', pureDate);
-				});
-				console.log('FROM EXPIRATION', mainDate);
-				return mainDate;
-			})
-			.catch((e: any) => {
-				console.log(e);
-			});
-		// get option chain
-		//@ts-ignore
-		const optionObject = {
-			tradability: 'tradable',
-			strikePrice: strikPrice,
-			state: 'active',
-			type: type,
-			symbol: stockSymbol
-		};
-
-		// const option = await new OptionInstrument(optionObject);
-		// // console.log(option);
-
-		// const optionChain = await OptionInstrument.getChain(user, stock, type);
-
-		//@ts-ignore
-		const robinExpiration = moment('SEP 16 2020').format();
-		console.log('Moment Format of Robin Date', robinExpiration);
-
+	async getOptionData(stockSymbol: string, expirationDate: string, strikePrice: string, type: string) {
 		/*
-		1. Create the user 
-		2. get the instrument 
-		3. Option Chain 
-		4. Optioninstrument. getprice, get exp 
-		5. compare that to the incoming 
-		6. return output 
-
+		1. Create the user
+		2. Get Primary Instrument
+		3. Option Chain - Comparing with ExpirationDate and Strike Price
+			a. Get optionPremium - OptionOrder.getPreimum()=> number
+			b. Get Greeks - 
+			c. Get Volume
+		6. Combine and return output
 		*/
+		try {
+			const user = await this.getUser();
 
-		return null;
+			//2. Get query expiration into proper format.
+			const queryExp = moment(expirationDate).format('YYYY-MM-DD');
+
+			//3. Set the primary instument with the input stockSymbol
+			const stock = await Instrument.getBySymbol(stockSymbol);
+
+			//4. Get option chain
+			const chain = await OptionInstrument.getChain(user, stock, type).then((opt: any) => {
+				opt.find((o: any) => {
+					const apiExp = moment(o.dates.expiration).format('YYYY-MM-DD');
+					if (strikePrice == o.strikePrice && queryExp == apiExp) {
+						console.log('option', o);
+						return o;
+					}
+
+					//5. Get Premium for the option
+					const optionOrder = new OptionOrder(user, {
+						side: 'buy',
+						type: 'limit', // Note: Robinhood does not allow market buy orders
+						price: 200,
+						timeInForce: 'gtc',
+						quantity: 1,
+						option: o
+					});
+					const optionPreimum = optionOrder.getPreimum();
+					console.log(optionPreimum);
+				});
+			});
+
+			console.log('chain', chain);
+
+			return chain;
+		} catch (error) {
+			console.log(error);
+		}
 	}
 }

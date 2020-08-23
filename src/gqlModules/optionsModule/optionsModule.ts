@@ -52,11 +52,9 @@ export const resolvers = {
 			{ dataSources: { robinhoodAPI } }
 		) => {
 			// get option data for given inputs
-			await robinhoodAPI.getOptionData(stockSymbol, expirationDate, strikePrice, type);
+			const data = await robinhoodAPI.getOptionData(stockSymbol, expirationDate, strikePrice, type);
 
-			//TODO: map data -> return data
-
-			return {};
+			return data;
 		}
 	}
 };

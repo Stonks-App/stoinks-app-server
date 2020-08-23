@@ -49,6 +49,7 @@
 		"express": "^4.17.1",
 		"graphql": "^15.3.0",
 		"lodash.merge": "^4.6.2",
-		"moment": "^2.27.0"
+		"moment": "^2.27.0",
+		"winston": "^3.3.3"
 	}
 }

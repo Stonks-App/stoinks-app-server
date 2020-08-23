@@ -77,6 +77,7 @@ export class RobinhoodAPI extends RESTDataSource {
 			//4. Get option chain
 			const chain = await OptionInstrument.getChain(user, stock, type).then((opt: any) => {
 				opt.find((o: any) => {
+					//get APIEXP into proper format.
 					const apiExp = moment(o.dates.expiration).format('YYYY-MM-DD');
 					if (strikePrice == o.strikePrice && queryExp == apiExp) {
 						console.log('option', o);

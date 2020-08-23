@@ -75,13 +75,13 @@ export class RobinhoodAPI extends RESTDataSource {
 			const stock = await Instrument.getBySymbol(stockSymbol);
 
 			//4. Get option chain
-			const chain = await OptionInstrument.getChain(user, stock, type).then((opt: any) => {
-				opt.find((o: any) => {
+			const chain = await OptionInstrument.getChain(user, stock, type).then((optionChain: any) => {
+				optionChain.find((option: any) => {
 					//get APIEXP into proper format.
-					const apiExp = moment(o.dates.expiration).format('YYYY-MM-DD');
-					if (strikePrice == o.strikePrice && queryExp == apiExp) {
-						console.log('option', o);
-						return o;
+					const apiExp = moment(option.dates.expiration).format('YYYY-MM-DD');
+					if (strikePrice == option.strikePrice && queryExp == apiExp) {
+						console.log('option', option);
+						return option;
 					}
 
 					//5. Get Premium for the option
@@ -91,7 +91,7 @@ export class RobinhoodAPI extends RESTDataSource {
 						price: 200,
 						timeInForce: 'gtc',
 						quantity: 1,
-						option: o
+						option: option
 					});
 					const optionPreimum = optionOrder.getPreimum();
 					console.log(optionPreimum);

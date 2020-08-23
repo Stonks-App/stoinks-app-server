@@ -1,6 +1,6 @@
 export const typeDefs = `
 extend type Query {
-  optionInstrument(stockSymbol: String, expirationDate: String, strikePrice: String): OptionInstrument
+  optionInstrument(stockSymbol: String, expirationDate: String, strikePrice: String, type: String): OptionInstrument
 }
 type OptionInstrument {
   meta: OptionMeta,
@@ -39,21 +39,24 @@ type Greeks {
 `;
 
 export const resolvers = {
-  Query: {
-    optionInstrument: async (
-      _source: any,
-      {
-        stockSymbol,
-        expirationDate,
-        strikePrice
-      }: { stockSymbol: string; expirationDate: string; strikePrice: string },
-      //@ts-ignore
-      { dataSources: { RobinhoodAPI } }
-    ) => {
-      console.log(stockSymbol);
-      console.log(expirationDate);
-      console.log(strikePrice);
-      return {};
-    }
-  }
+	Query: {
+		optionInstrument: async (
+			_source: any,
+			{
+				stockSymbol,
+				expirationDate,
+				strikePrice,
+				type
+			}: { stockSymbol: string; expirationDate: string; strikePrice: string; type: string },
+			//@ts-ignore
+			{ dataSources: { robinhoodAPI } }
+		) => {
+			// get option data for given inputs
+			await robinhoodAPI.getOptionData(stockSymbol, expirationDate, strikePrice, type);
+
+			//TODO: map data -> return data
+
+			return {};
+		}
+	}
 };

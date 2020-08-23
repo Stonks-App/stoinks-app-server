@@ -1,12 +1,11 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 // @ts-ignore
 import { Robinhood } from 'algotrader';
-import { DiscordAPI } from '../../shared/dataSources/DiscordAPI';
-import { parseMessage } from '../../discordModule/utils/messageParser';
-import { OptionBuyOrder } from 'src/gqlModules/discordModule/types';
 const User = Robinhood.User;
 const Instrument = Robinhood.Instrument;
 const OptionInstrument = Robinhood.OptionInstrument;
+
+import moment from 'moment';
 
 const options = {
 	doNotSaveToDisk: true
@@ -54,26 +53,57 @@ export class RobinhoodAPI extends RESTDataSource {
 			});
 	}
 
-	// TODO: Remove me
-	async getPortfolio() {
-		const data = await this.getUser().getPortfolio();
-		console.log(data);
-		return data;
-	}
-
 	//@ts-ignore
-	async getOptionData(stockSymbol: string, expirationDate: string, strikPrice: string) {
-		const newMessage = await new DiscordAPI().getDiscordMessages(694323672483364874, 1);
-		const messageData = parseMessage(newMessage[0]);
-		const stock = await Instrument.getBySymbol(messageData.order?.stockSymbol);
-		const user = this.getUser();
-		if (messageData.order?.operation === 'BTO') {
-			const order = messageData.order as OptionBuyOrder;
-			const optionChain = await OptionInstrument.getChain(user, stock, order.type);
-			console.log(optionChain)
-		}
+	async getOptionData(stockSymbol: string, expirationDate: string, strikPrice: string, type: string) {
+		const user = await this.getUser();
+		//@ts-ignore
+		const inputExpiration = moment(expirationDate).format('yyyy-mm-dd');
+		console.log('Input EXP', inputExpiration);
 
+		const stock = await Instrument.getBySymbol(stockSymbol);
+		//@ts-ignore
+		const expiration = await OptionInstrument.getExpirations(user, stock)
+			.then((res: any) => {
+				const mainDate = res.forEach((expirationDate: any) => {
+					const date = expirationDate.toString().split(' ');
+					const pureDate = date[1] + ' ' + date[2] + ' ' + date[3];
+					console.log('Robin EXP', pureDate);
+				});
+				console.log('FROM EXPIRATION', mainDate);
+				return mainDate;
+			})
+			.catch((e: any) => {
+				console.log(e);
+			});
+		// get option chain
+		//@ts-ignore
+		const optionObject = {
+			tradability: 'tradable',
+			strikePrice: strikPrice,
+			state: 'active',
+			type: type,
+			symbol: stockSymbol
+		};
 
-		return console.log('inside getOptionData');
+		// const option = await new OptionInstrument(optionObject);
+		// // console.log(option);
+
+		// const optionChain = await OptionInstrument.getChain(user, stock, type);
+
+		//@ts-ignore
+		const robinExpiration = moment('SEP 16 2020').format();
+		console.log('Moment Format of Robin Date', robinExpiration);
+
+		/*
+		1. Create the user 
+		2. get the instrument 
+		3. Option Chain 
+		4. Optioninstrument. getprice, get exp 
+		5. compare that to the incoming 
+		6. return output 
+
+		*/
+
+		return null;
 	}
 }

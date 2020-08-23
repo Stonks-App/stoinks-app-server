@@ -25,15 +25,21 @@ export const typeDefs = `
 `;
 
 export const resolvers = {
-  Query: {
-    getDiscordMessages: async (
-      _source: any,
-      { channelID, numMessages, parseOrders = false}: { channelID: number; numMessages: number, parseOrders: boolean },
-      //@ts-ignore
-      { dataSources: { discordAPI, TDAPI } }
-    ) => {
-      const data = await discordAPI.getDiscordMessages(channelID, numMessages)
-      return parseOrders ? data.map(parseMessage) : data;
-    }
-  }
+	Query: {
+		getDiscordMessages: async (
+			_source: any,
+			{
+				channelID,
+				numMessages,
+				parseOrders = false
+			}: { channelID: number; numMessages: number; parseOrders: boolean },
+			//@ts-ignore
+			{ dataSources: { discordAPI, TDAPI } }
+		) => {
+			console.log('HLI');
+			const data = await discordAPI.getDiscordMessages(channelID, numMessages);
+			console.log(data);
+			return parseOrders ? data.map(parseMessage) : data;
+		}
+	}
 };

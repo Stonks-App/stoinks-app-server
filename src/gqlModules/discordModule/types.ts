@@ -1,31 +1,28 @@
-
-
 export type DiscordMessage = {
-    id: string,
-    content: string,
-    author: Author,
-    timestamp: string
-}
+	id: string;
+	content: string;
+	author: Author;
+	timestamp: string;
+};
 
 export type ParsedDiscordMessage = DiscordMessage & {
-    order?: OptionBuyOrder | OptionSellOrder
-}
+	order?: OptionBuyOrder | OptionSellOrder;
+};
 
 export type Author = {
-    username: string
-}
+	username: string;
+};
 
 type OptionOrder = {
-    operation: string, // BTO, STC
-    stockSymbol: string[],
-}
+	operation: string; // BTO, STC
+	stockSymbol: string[];
+};
 
 export type OptionBuyOrder = OptionOrder & {
-    type: string, // PUT, CALL
-    strikePrice: string,
-    expirationDate: string,
-    target: string[]
-}
+	type: string; // PUT, CALL
+	strikePrice: string;
+	expirationDate: string;
+	target: string[];
+};
 
-export type OptionSellOrder = OptionOrder & {
-}
+export type OptionSellOrder = OptionOrder & {};

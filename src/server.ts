@@ -3,7 +3,7 @@ import express from 'express';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import * as Sentry from '@sentry/node';
 import cors from 'cors';
-const port = 8080;
+const port = process.env.PORT || 4000;
 import logger from './utils/log/logger';
 
 import { typeDefs, resolvers, dataSources } from './gqlModules/gqlBase';

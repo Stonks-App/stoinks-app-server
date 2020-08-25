@@ -1,6 +1,6 @@
 export const typeDefs = `
 extend type Query {
-  optionInstrument(stockSymbol: String, expirationDate: String, strikePrice: Int, type: String): OptionInstrument
+  optionInstrument(stockSymbol: String, expirationDate: String, strikePrice: String, type: String): OptionInstrument
 }
 type OptionInstrument {
   meta: OptionMeta,
@@ -37,7 +37,7 @@ export const resolvers = {
 				expirationDate,
 				strikePrice,
 				type
-			}: { stockSymbol: string; expirationDate: string; strikePrice: number; type: string },
+			}: { stockSymbol: string; expirationDate: string; strikePrice: string; type: string },
 			//@ts-ignore
 			{ dataSources: { robinhoodAPI } }
 		) => {

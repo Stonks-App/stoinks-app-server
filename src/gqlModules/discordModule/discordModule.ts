@@ -28,11 +28,15 @@ export const resolvers = {
   Query: {
     getDiscordMessages: async (
       _source: any,
-      { channelID, numMessages, parseOrders = false}: { channelID: number; numMessages: number, parseOrders: boolean },
+      {
+        channelID,
+        numMessages,
+        parseOrders = false
+      }: { channelID: number; numMessages: number; parseOrders: boolean },
       //@ts-ignore
-      { dataSources: { discordAPI, TDAPI } }
+      { dataSources: { discordAPI } }
     ) => {
-      const data = await discordAPI.getDiscordMessages(channelID, numMessages)
+      const data = await discordAPI.getDiscordMessages(channelID, numMessages);
       return parseOrders ? data.map(parseMessage) : data;
     }
   }

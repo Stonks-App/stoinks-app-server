@@ -54,7 +54,7 @@ export class RobinhoodAPI extends RESTDataSource {
 	}
 
 	//@ts-ignore
-	async getOptionData(stockSymbol: string, expirationDate: string, strikePrice: number, type: string) {
+	async getOptionData(stockSymbol: string, expirationDate: string, strikePrice: string, type: string) {
 		const user = await this.getUser();
 		const queryExp = moment(new Date(expirationDate)).format('YYYY-MM-DD');
 		const stock = await Instrument.getBySymbol(stockSymbol);
@@ -65,7 +65,7 @@ export class RobinhoodAPI extends RESTDataSource {
 			const stringAPIExp = JSON.stringify(option.dates.expiration);
 			const splitAPIExp = new Date(stringAPIExp.split('T')[0]);
 			const apiExp = moment(splitAPIExp).format('YYYY-MM-DD');
-			return option.strikePrice === strikePrice && apiExp === queryExp;
+			return option.strikePrice == strikePrice && apiExp === queryExp;
 		});
 		const optionPremiumInfo = OptionInstrument.getPrices(user, [ stockOption ]);
 

@@ -56,22 +56,19 @@ export class RobinhoodAPI extends RESTDataSource {
 	//@ts-ignore
 	async getOptionData(stockSymbol: string, expirationDate: string, strikePrice: number, type: string) {
 		const user = await this.getUser();
-		//@ts-ignore
-		const queryExp = moment(expirationDate).format('YYYY-MM-DD');
+		const queryExp = moment(new Date(expirationDate)).format('YYYY-MM-DD');
 		const stock = await Instrument.getBySymbol(stockSymbol);
-		await OptionInstrument.getChain(user, stock, type).then((optionChain: any) => {
-			const filteredOptions = optionChain.filter((option: any) => {
-				const stringAPIExp = JSON.stringify(option.dates.expiration);
-				const splitAPIExp = stringAPIExp.split('T');
-				const apiExp = moment(splitAPIExp[0]).format('YYYY-MM-DD');
-				if (option.strikePrice === strikePrice && apiExp === queryExp) {
-					return option;
-				}
-			});
-			filteredOptions.forEach(async (option: any) => {
-				const optionPremiumInfo = await OptionInstrument.getPrices(user, [ option ]);
-				return optionPremiumInfo;
-			});
+
+		const stockOptionChain = await OptionInstrument.getChain(user, stock, type);
+
+		const stockOption = stockOptionChain.find((option: any) => {
+			const stringAPIExp = JSON.stringify(option.dates.expiration);
+			const splitAPIExp = new Date(stringAPIExp.split('T')[0]);
+			const apiExp = moment(splitAPIExp).format('YYYY-MM-DD');
+			return option.strikePrice === strikePrice && apiExp === queryExp;
 		});
+		const optionPremiumInfo = OptionInstrument.getPrices(user, [ stockOption ]);
+
+		return optionPremiumInfo;
 	}
 }

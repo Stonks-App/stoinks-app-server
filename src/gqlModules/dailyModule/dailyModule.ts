@@ -4,15 +4,15 @@ export const typeDefs = `
     }
     type DailyQuote {
         symbol: String,
-        date: String,
+        date: Date,
         price: Price
     }
     type Price {
-        high: String,
-        low: String,
-        open: String,
-        close: String,
-        volume: String
+        high: PositiveFloat,
+        low: PositiveFloat,
+        open: PositiveFloat,
+        close: PositiveFloat,
+        volume: PositiveInt
     }
 `;
 

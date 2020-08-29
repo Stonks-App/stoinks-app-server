@@ -8,10 +8,10 @@ export const typeDefs = `
         price: Price
     }
     type Price {
-        high: USCurrency,
-        low: USCurrency,
-        open: USCurrency,
-        close: USCurrency,
+        high: PositiveFloat,
+        low: PositiveFloat,
+        open: PositiveFloat,
+        close: PositiveFloat,
         volume: PositiveInt
     }
 `;

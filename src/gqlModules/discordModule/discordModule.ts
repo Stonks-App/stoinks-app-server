@@ -2,13 +2,13 @@ import { parseMessage } from './utils/messageParser';
 
 export const typeDefs = `
     extend type Query {
-        getDiscordMessages(channelID: String, numMessages: Float, parseOrders: Boolean): [DiscordMessage]
+        discordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
     }
     type DiscordMessage {
         id: String,
         content: String,
         author: Author,
-        timestamp: String,
+        timestamp: DateTime,
         order: OptionTrade
     }
     type Author {
@@ -18,12 +18,12 @@ export const typeDefs = `
 
 export const resolvers = {
   Query: {
-    getDiscordMessages: async (
+    discordMessages: async (
       _source: any,
       {
         channelID,
         numMessages,
-        parseOrders = false
+        parseOrders
       }: { channelID: number; numMessages: number; parseOrders: boolean },
       //@ts-ignore
       { dataSources: { discordAPI } }

@@ -13,11 +13,16 @@ const tradeTypeDefs = `
     type OptionTrade {
         source: String
         operation: String,
-        stockSymbol: [String],
+        tickers: [Ticker],
         type: String,
-        strikePrice: String,
+        strikePrice: PositiveFloat,
         expirationDate: String,
         target: [String]
+    }
+
+    type Ticker {
+        exchange: String,
+        symbol: String
     }
 `;
 

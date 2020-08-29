@@ -65,6 +65,7 @@ export class RobinhoodAPI extends RESTDataSource {
 			const stringAPIExp = JSON.stringify(option.dates.expiration);
 			const splitAPIExp = new Date(stringAPIExp.split('T')[0]);
 			const apiExp = moment(splitAPIExp).format('YYYY-MM-DD');
+			//fix
 			return option.strikePrice == strikePrice && apiExp === queryExp;
 		});
 		const optionPremiumInfo = OptionInstrument.getPrices(user, [ stockOption ]);

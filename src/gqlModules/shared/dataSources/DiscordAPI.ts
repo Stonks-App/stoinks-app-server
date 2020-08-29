@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
+import { parseMessage, parseTrade } from './utils/messageParser';
 
 export class DiscordAPI extends RESTDataSource {
   constructor() {
@@ -12,8 +13,14 @@ export class DiscordAPI extends RESTDataSource {
 
   //const nexsus-swing-channel = 694323672483364874
   async getDiscordMessages(channelID: number, numMessages: number) {
-    return await this.get(
+    const messages = await this.get(
       `/channels/${channelID}/messages?limit=${numMessages}`
     );
+    return messages.map(parseMessage);
+  }
+
+  async getDiscordMessageOrders(channelID: number, numMessages: number) {
+    const messages = await this.getDiscordMessages(channelID, numMessages);
+    return messages.map(parseTrade);
   }
 }

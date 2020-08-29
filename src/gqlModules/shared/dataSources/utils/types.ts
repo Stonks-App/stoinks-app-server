@@ -14,8 +14,9 @@ export type Author = {
 };
 
 type OptionOrder = {
+	source: string;
 	operation: string; // BTO, STC
-	stockSymbol: string[];
+	tickers: Ticker[];
 };
 
 export type OptionBuyOrder = OptionOrder & {
@@ -26,3 +27,8 @@ export type OptionBuyOrder = OptionOrder & {
 };
 
 export type OptionSellOrder = OptionOrder & {};
+
+export type Ticker = {
+	exchange: string;
+	symbol: string;
+};

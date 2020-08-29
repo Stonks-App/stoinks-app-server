@@ -9,18 +9,10 @@ export const typeDefs = `
         content: String,
         author: Author,
         timestamp: String,
-        order: OptionOrder
+        order: OptionTrade
     }
     type Author {
         username: String
-    }
-    type OptionOrder {
-        operation: String,
-        stockSymbol: [String],
-        type: String,
-        strikePrice: String,
-        expirationDate: String,
-        target: [String]
     }
 `;
 

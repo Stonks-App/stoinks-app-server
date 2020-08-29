@@ -4,13 +4,13 @@ import {
   OptionBuyOrder,
   OptionSellOrder,
   Ticker
-} from '../types';
+} from './types';
 import {
   NYSESymbolList,
   NASDAQSymbolList,
   AMEXSymbolList
-} from '../../shared/stockSymbols';
-import logger from '../../../utils/log/logger';
+} from '../../stockSymbols';
+import logger from '../../../../utils/log/logger';
 
 const getOperation = (messageContent: string): string => {
   let operation = 'N/A';

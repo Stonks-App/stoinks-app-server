@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
+import { parseMessage } from './utils/messageParser';
 
 export class DiscordAPI extends RESTDataSource {
   constructor() {
@@ -15,5 +16,12 @@ export class DiscordAPI extends RESTDataSource {
     return await this.get(
       `/channels/${channelID}/messages?limit=${numMessages}`
     );
+  }
+
+  async getDiscordMessageOrders(channelID: number, numMessages: number) {
+    const messages = await this.get(
+      `/channels/${channelID}/messages?limit=${numMessages}`
+    );
+    return messages.map(parseMessage);
   }
 }

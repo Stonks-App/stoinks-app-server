@@ -1,5 +1,3 @@
-import { parseMessage } from './utils/messageParser';
-
 export const typeDefs = `
     extend type Query {
         discordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
@@ -28,8 +26,10 @@ export const resolvers = {
       //@ts-ignore
       { dataSources: { discordAPI } }
     ) => {
-      const data = await discordAPI.getDiscordMessages(channelID, numMessages);
-      return parseOrders ? data.map(parseMessage) : data;
+      if (parseOrders) {
+        return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
+      }
+      return discordAPI.getDiscordMessages(channelID, numMessages);
     }
   }
 };

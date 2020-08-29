@@ -126,7 +126,9 @@ const defaultOrder = {
   tickers: []
 };
 
-export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
+export const parseTrade = (
+  message: ParsedDiscordMessage
+): ParsedDiscordMessage => {
   logger.debug(`Parsing Message ${message.content}`);
   // parse order operation
   const operation = getOperation(message.content);
@@ -181,4 +183,8 @@ export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
     ...message,
     order
   };
+};
+
+export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
+  return message;
 };

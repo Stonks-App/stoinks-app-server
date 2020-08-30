@@ -15,7 +15,7 @@ const tradeTypeDefs = `
         operation: String,
         tickers: [Ticker],
         type: String,
-        strikePrice: PositiveFloat,
+        strikePrice: String,
         expirationDate: String,
         target: [String]
     }

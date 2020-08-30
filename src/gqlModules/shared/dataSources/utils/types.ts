@@ -3,6 +3,7 @@ export type DiscordMessage = {
 	content: string;
 	author: Author;
 	timestamp: string;
+	embeds: Embeds[];
 };
 
 export type ParsedDiscordMessage = DiscordMessage & {
@@ -17,6 +18,17 @@ type OptionOrder = {
 	source: string;
 	operation: string; // BTO, STC
 	tickers: Ticker[];
+};
+
+type Embeds = {
+	type: string;
+	title: string;
+	fields: Fields[];
+};
+
+type Fields = {
+	name: string;
+	value: string;
 };
 
 export type OptionBuyOrder = OptionOrder & {

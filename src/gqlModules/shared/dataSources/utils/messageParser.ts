@@ -1,4 +1,4 @@
-import { DiscordMessage, ParsedDiscordMessage, OptionBuyOrder, OptionSellOrder, Ticker } from './types';
+import { ParsedDiscordMessage, OptionBuyOrder, OptionSellOrder, Ticker } from './types';
 import { NYSESymbolList, NASDAQSymbolList, AMEXSymbolList } from '../../stockSymbols';
 import logger from '../../../../utils/log/logger';
 
@@ -140,7 +140,7 @@ export const parseTrade = (message: ParsedDiscordMessage): ParsedDiscordMessage 
 			const strikePrice = parsedStrike.replace(/[^\d.]/g, '');
 			const target = getOrderTarget(message.content, parsedStrike).filter((t) => parseInt(t) > 0);
 
-			logger.debug('Finished Parsing Message');
+			// logger.debug('Finished Parsing Message');
 
 			order = {
 				source: 'Discord',
@@ -155,13 +155,8 @@ export const parseTrade = (message: ParsedDiscordMessage): ParsedDiscordMessage 
 	} catch (error) {
 		logger.error(error);
 	}
-
 	return {
 		...message,
 		order
 	};
-};
-
-export const parseMessage = (message: DiscordMessage): ParsedDiscordMessage => {
-	return message;
 };

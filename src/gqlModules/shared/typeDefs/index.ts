@@ -15,7 +15,11 @@ const tradeTypeDefs = `
         operation: String,
         tickers: [Ticker],
         type: String,
+<<<<<<< HEAD
         strikePrice: PositiveFloat,
+=======
+        strikePrice: String,
+>>>>>>> f7b572926d8b49cc896e02dc488828c62db41c89
         expirationDate: String,
         target: [String]
     }
@@ -26,4 +30,12 @@ const tradeTypeDefs = `
     }
 `;
 
+<<<<<<< HEAD
 export const sharedTypeDefs = [ defaultTypeDefs, ...scalerTypeDefs, tradeTypeDefs ];
+=======
+export const sharedTypeDefs = [
+  defaultTypeDefs,
+  ...scalerTypeDefs,
+  tradeTypeDefs
+];
+>>>>>>> f7b572926d8b49cc896e02dc488828c62db41c89

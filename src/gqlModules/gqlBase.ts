@@ -18,6 +18,13 @@ import {
   typeDefs as optionTypeDefs,
   resolvers as optionResolvers
 } from './optionsModule/optionsModule';
+<<<<<<< HEAD
+=======
+import {
+  typeDefs as tradeTypeDefs,
+  resolvers as tradeResolvers
+} from './tradeModule/tradeModule';
+>>>>>>> f7b572926d8b49cc896e02dc488828c62db41c89
 import { AlphaVantageAPI } from './shared/dataSources/AlphaVantageAPI';
 import { DiscordAPI } from './shared/dataSources/DiscordAPI';
 import { RobinhoodAPI } from './shared/dataSources/RobinhoodAPI';
@@ -37,7 +44,12 @@ export const typeDefs = [
   ...sharedTypeDefs,
   dailyTypeDefs,
   discordTypeDefs,
+<<<<<<< HEAD
   optionTypeDefs
+=======
+  optionTypeDefs,
+  tradeTypeDefs
+>>>>>>> f7b572926d8b49cc896e02dc488828c62db41c89
 ];
 
 const baseResolver = {
@@ -50,7 +62,12 @@ export const resolvers = merge(
   sharedResolvers,
   dailyResolvers,
   discordResolvers,
+<<<<<<< HEAD
   optionResolvers
+=======
+  optionResolvers,
+  tradeResolvers
+>>>>>>> f7b572926d8b49cc896e02dc488828c62db41c89
 );
 
 export const dataSources = () => {

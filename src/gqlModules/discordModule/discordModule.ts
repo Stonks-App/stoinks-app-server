@@ -15,21 +15,17 @@ export const typeDefs = `
 `;
 
 export const resolvers = {
-  Query: {
-    discordMessages: async (
-      _source: any,
-      {
-        channelID,
-        numMessages,
-        parseOrders
-      }: { channelID: number; numMessages: number; parseOrders: boolean },
-      //@ts-ignore
-      { dataSources: { discordAPI } }
-    ) => {
-      if (parseOrders) {
-        return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
-      }
-      return discordAPI.getDiscordMessages(channelID, numMessages);
-    }
-  }
+	Query: {
+		discordMessages: async (
+			_source: any,
+			{ channelID, numMessages, parseOrders }: { channelID: number; numMessages: number; parseOrders: boolean },
+			//@ts-ignore
+			{ dataSources: { discordAPI } }
+		) => {
+			if (parseOrders) {
+				return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
+			}
+			return discordAPI.getDiscordMessages(channelID, numMessages);
+		}
+	}
 };

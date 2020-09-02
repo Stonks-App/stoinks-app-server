@@ -63,49 +63,7 @@ export const resolvers = {
 					lowFillSellPrice: data.price.low_fill_rate_sell_price
 				}
 			};
-
 			return option;
 		}
 	}
 };
-
-// extend type Query {
-//   optionInstrument(stockSymbol: String, expirationDate: String, strikePrice: Int, type: String): OptionInstrument
-// }
-// type OptionInstrument {
-//   meta: OptionMeta,
-//   price: OptionPrice,
-//   volume: OptionVolume,
-//   interest: OptionInterest,
-//   greeks: Greeks
-// }
-// type OptionMeta {
-//   stockSymbol: String,
-//   expirationDate: String,
-//   strikePrice: Int,
-//   robinHoodUrl: String
-// }
-// type OptionPrice {
-//   ask: String,
-//   bid: String,
-//   mark: String,
-//   volatility: String,
-// }
-// type OptionVolume {
-//   askSize: String,
-//   bidSize: String,
-//   optionVolume: String
-// }
-// type OptionInterest {
-//   openInterest: Int,
-//   highFillBuyPrice: String,
-//   highFillSellPrice: String
-// }
-// type Greeks {
-//   delta: String,
-//   gamma: String,
-//   theta: String,
-//   vega: String,
-//   IV: String
-// }
-// `;

@@ -37,11 +37,13 @@ export class DiscordAPI extends RESTDataSource {
 	async getDiscordMessages(channelID: number, numMessages: number) {
 		const messagesFromDB = messageDB[channelID];
 		if (messagesFromDB) {
-			console.log('FETCHED FROM CACHE');
+			// console.log('FETCHED FROM CACHE');
 			return messagesFromDB.splice(0, numMessages).map(parseMessage);
 		}
-		console.log('NOT FETCHED FROM CACHE');
+		// console.log('NOT FETCHED FROM CACHE');
 		const messages = await this.get(`/channels/${channelID}/messages?limit=${numMessages}`);
+		console.log('message', messages);
+		console.log('messageEmbeds', messages.embeds);
 		return messages.map(parseMessage);
 	}
 

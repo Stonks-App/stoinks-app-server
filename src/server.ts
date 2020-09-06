@@ -2,6 +2,7 @@ require('dotenv').config();
 //Server import
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 //GQL imports
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import { typeDefs, resolvers, dataSources } from './gqlModules/gqlBase';
@@ -30,6 +31,7 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 app.use(cors());
+app.use(morgan('dev'));
 
 const db: any = mongoURI;
 connect(db);

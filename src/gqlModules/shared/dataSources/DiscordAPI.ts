@@ -79,7 +79,7 @@ export class DiscordAPI extends RESTDataSource {
 			console.log('Chat Messages', botMessages);
 
 			const newBotMessage = new BotMessage({
-				tradeMessageID: botMessages[0].id,
+				botMessageID: botMessages[0].id,
 				channel_id: botMessages[0].channel_id,
 				embeds: {
 					typeOfData: botMessages[0].embeds[0].type,

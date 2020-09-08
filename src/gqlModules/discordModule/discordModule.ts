@@ -61,17 +61,17 @@ export const resolvers = {
 			return data;
 		},
 		//bot discord messages
-		getBotDiscordMessages: async (
-			_source: any,
-			{ channelID, numMessages, parseOrders }: { channelID: number; numMessages: number; parseOrders: boolean },
-			//@ts-ignore
-			{ dataSources: { discordAPI } }
-		) => {
-			if (parseOrders) {
-				return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
-			}
-			return discordAPI.getChatDiscordMessages(channelID, numMessages);
-		},
+		// getBotDiscordMessages: async (
+		// 	_source: any,
+		// 	{ channelID, numMessages, parseOrders }: { channelID: number; numMessages: number; parseOrders: boolean },
+		// 	//@ts-ignore
+		// 	{ dataSources: { discordAPI } }
+		// ) => {
+		// 	if (parseOrders) {
+		// 		return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
+		// 	}
+		// 	return discordAPI.getChatDiscordMessages(channelID, numMessages);
+		// },
 		saveBotDiscordMessages: async (
 			_source: any,
 			{ channelID, numMessages }: { channelID: number; numMessages: number; parseOrders: boolean },

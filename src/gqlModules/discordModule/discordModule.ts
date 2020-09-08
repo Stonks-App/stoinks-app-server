@@ -1,14 +1,22 @@
 export const typeDefs = `
     extend type Query {
-        discordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
+		discordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
+		saveDiscordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [ChatDiscordMessage]
     }
     type DiscordMessage {
         id: String,
         content: String,
         author: Author,
-        timestamp: DateTime,
-        order: OptionTrade
-    }
+        timestamp: DateTime
+	}
+
+	type ChatDiscordMessage{
+		chatMessageID: String,
+		content: String,
+		author: Author,
+		timestamp: DateTime
+	}
+	
     type Author {
         username: String
     }
@@ -23,13 +31,19 @@ export const resolvers = {
 			{ dataSources: { discordAPI } }
 		) => {
 			if (parseOrders) {
-				const data = await discordAPI.getDiscordMessageOrders(channelID, numMessages);
-				console.log('parse Order Data', data);
-				return data;
+				return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
 			}
-			const data2 = discordAPI.getDiscordMessages(channelID, numMessages);
-			console.log('regular message', data2);
-			return data2;
+			return discordAPI.getDiscordMessages(channelID, numMessages);
+		},
+		saveDiscordMessages: async (
+			_source: any,
+			{ channelID, numMessages }: { channelID: number; numMessages: number; parseOrders: boolean },
+			//@ts-ignore
+			{ dataSources: { discordAPI } }
+		) => {
+			const data = await discordAPI.saveDiscordChatMessages(channelID, numMessages);
+			console.log('data from Resolver', data);
+			return data;
 		}
 	}
 };

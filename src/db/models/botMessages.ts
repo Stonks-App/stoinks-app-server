@@ -9,6 +9,7 @@ export interface botMessages extends Document {
 const BotMessageSchema: Schema = new Schema(
 	{
 		botMessageID: String,
+		channel_id: String,
 		embeds: {
 			typeOfData: String,
 			title: String,

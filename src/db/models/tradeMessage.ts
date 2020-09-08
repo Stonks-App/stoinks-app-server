@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface chatMessages extends Document {
+export interface tradeMessages extends Document {
 	tradeMessageID: string;
 	author: object;
 	embeds: object;
@@ -13,8 +13,10 @@ const TradeMessageSchema: Schema = new Schema(
 			type: String,
 			unique: true
 		},
+		channel_id: String,
 		content: String,
 		author: {
+			authorId: String,
 			username: String
 		},
 		timeStamp: Date
@@ -22,6 +24,6 @@ const TradeMessageSchema: Schema = new Schema(
 	{ timestamps: { createdAt: 'created_at' } }
 );
 
-const tradeMessage = mongoose.model<chatMessages>('ChatMessage', TradeMessageSchema);
+const tradeMessage = mongoose.model<tradeMessages>('ChatMessage', TradeMessageSchema);
 
 export default tradeMessage;

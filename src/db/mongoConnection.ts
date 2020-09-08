@@ -5,7 +5,7 @@ export interface db {}
 export default (db: string) => {
 	const connect = () => {
 		mongoose
-			.connect(db, { useNewUrlParser: true })
+			.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 			.then(() => {
 				return console.log(`Successfully connected to ${db}`);
 			})

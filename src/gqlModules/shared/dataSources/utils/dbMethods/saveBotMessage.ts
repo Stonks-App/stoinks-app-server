@@ -12,10 +12,8 @@ const saveBotDiscordMessages = async (channelID: string, numMessages: number) =>
 		.get(`/channels/${channelID}/messages?limit=${numMessages}`)
 		.then(async (res) => {
 			const data = res.data;
-			console.log('DATA', data);
 			data.forEach(async (message: any) => {
 				//get the current message id and check the DB to see if its there.
-				console.log('E', message);
 				const dbMessage = await BotMessage.findOne({ botMessageID: message.id });
 				if (dbMessage) {
 					console.log('Only new BOT messages were saved');

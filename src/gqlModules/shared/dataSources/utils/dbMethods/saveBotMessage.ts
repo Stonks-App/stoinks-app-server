@@ -18,7 +18,7 @@ const saveBotDiscordMessages = async (channelID: string, numMessages: number) =>
 				console.log('E', message);
 				const dbMessage = await BotMessage.findOne({ botMessageID: message.id });
 				if (dbMessage) {
-					console.log(Math.random(), 'Only new BOT messages were saved');
+					console.log('Only new BOT messages were saved');
 				}
 				else {
 					const newBotMessage = new BotMessage({

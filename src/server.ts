@@ -39,12 +39,10 @@ app.use(morgan('dev'));
 const db: any = mongoURI;
 connect(db);
 
-saveBotDiscordMessages('745816529131536414', 10);
-
-// setInterval(() => {
-// 	// saveTradeDiscordMessages('694323672483364874', 10);
-// 	saveBotDiscordMessages('745816529131536414', 10);
-// }, 5000);
+setInterval(() => {
+	saveTradeDiscordMessages('694323672483364874', 50);
+	saveBotDiscordMessages('745816529131536414', 50);
+}, 10000);
 
 app.listen(port, () => {
 	if (process.env.NODE_ENV === 'development') {

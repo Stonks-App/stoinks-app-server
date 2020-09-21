@@ -1,39 +1,45 @@
 import axios from 'axios';
 import TradeMessage from '../../../../../db/models/tradeMessage';
 
-const saveTradeDiscordMessages = async (channelID: number, numMessages: number) => {
-	try {
-		const discordAxios = axios.create({
-			baseURL: 'https://discord.com/api',
-			headers: { Authorization: process.env.DISCORD_AUTH_TOKEN }
-		});
+const saveTradeDiscordMessages = async (channelID: string, numMessages: number) => {
+	const discordAxios = axios.create({
+		baseURL: 'https://discord.com/api',
+		timeout: 1000,
+		headers: { Authorization: process.env.DISCORD_AUTH_TOKEN }
+	});
+	//@ts-ignore
+	const tradeMessages: any = await discordAxios
+		.get(`/channels/${channelID}/messages?limit=${numMessages}`)
+		.then(async (res) => {
+			const data = res.data;
 
-		const tradeMessages: any = await discordAxios
-			.get(`/channels/${channelID}/messages?limit=${numMessages}`)
-			.then((res) => {
-				console.log('trade Message', res);
-				console.log('trade Message Data', res.data);
-			})
-			.catch((err) => {
-				console.log(err);
+			data.forEach(async (message: any) => {
+				//get the current message id and check the DB to see if its there.
+
+				const dbMessage = await TradeMessage.findOne({ tradeMessageID: message.id });
+				if (dbMessage) {
+					console.log('Only new TRADE messages were saved');
+				}
+				else {
+					const newChatMessage = new TradeMessage({
+						tradeMessageID: message.id,
+						channel_id: message.channel_id,
+						content: message.content,
+						author: {
+							authorId: message.author.id,
+							username: message.author.username
+						},
+						timeStamp: message.timestamp
+					});
+					const savedMessage = newChatMessage.save();
+					return savedMessage;
+				}
+				return;
 			});
-
-		const newChatMessage = new TradeMessage({
-			tradeMessageID: tradeMessages[0].data.id,
-			channel_id: tradeMessages[0].data.channel_id,
-			content: tradeMessages[0].data.content,
-			author: {
-				authorId: tradeMessages[0].data.author.id,
-				username: tradeMessages[0].data.author.username
-			},
-			timeStamp: tradeMessages[0].data.timestamp
+		})
+		.catch((error) => {
+			return console.log('Foreach error', error);
 		});
-
-		const saveChatMessage = await newChatMessage.save();
-		return saveChatMessage;
-	} catch (error) {
-		return console.log('Save Discord Chat Message Error');
-	}
 };
 
 export default saveTradeDiscordMessages;

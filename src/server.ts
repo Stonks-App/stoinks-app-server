@@ -14,9 +14,9 @@ import connect from './db/mongoConnection';
 import mongoURI from './db/config';
 
 //@ts-ignore
-import saveBotDiscordMessage from './gqlModules/shared/dataSources/utils/dbMethods/saveBotMessage';
+import saveBotDiscordMessages from './gqlModules/shared/dataSources/utils/dbMethods/saveBotMessage';
 //@ts-ignore
-import saveTradeDiscordMessage from './gqlModules/shared/dataSources/utils/dbMethods/saveTradeMessage';
+import saveTradeDiscordMessages from './gqlModules/shared/dataSources/utils/dbMethods/saveTradeMessage';
 
 const schema = makeExecutableSchema({
 	typeDefs,
@@ -39,8 +39,12 @@ app.use(morgan('dev'));
 const db: any = mongoURI;
 connect(db);
 
-// saveBotDiscordMessage(745816529131536414, 1);
-saveTradeDiscordMessage(694323672483364874, 1);
+saveBotDiscordMessages('745816529131536414', 10);
+
+// setInterval(() => {
+// 	// saveTradeDiscordMessages('694323672483364874', 10);
+// 	saveBotDiscordMessages('745816529131536414', 10);
+// }, 5000);
 
 app.listen(port, () => {
 	if (process.env.NODE_ENV === 'development') {

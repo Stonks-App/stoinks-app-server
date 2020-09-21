@@ -1,10 +1,7 @@
 export const typeDefs = `
     extend type Query {
 		getTradeDiscordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
-		saveTradeDiscordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [DiscordMessage]
 		getBotDiscordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [BotDiscordMessage]
-		saveBotDiscordMessages(channelID: String, numMessages: PositiveInt = 20, parseOrders: Boolean = false): [BotDiscordMessage]
-
     }
     type DiscordMessage {
         id: String,
@@ -49,17 +46,7 @@ export const resolvers = {
 				return await discordAPI.getDiscordMessageOrders(channelID, numMessages);
 			}
 			return discordAPI.getTradeDiscordMessages(channelID, numMessages);
-		},
-		saveTradeDiscordMessages: async (
-			_source: any,
-			{ channelID, numMessages }: { channelID: number; numMessages: number; parseOrders: boolean },
-			//@ts-ignore
-			{ dataSources: { discordAPI } }
-		) => {
-			const data = await discordAPI.saveTradeDiscordMessages(channelID, numMessages);
-			console.log('data from Resolver', data);
-			return data;
-		},
+		}
 		//bot discord messages
 		// getBotDiscordMessages: async (
 		// 	_source: any,
@@ -72,15 +59,5 @@ export const resolvers = {
 		// 	}
 		// 	return discordAPI.getChatDiscordMessages(channelID, numMessages);
 		// },
-		saveBotDiscordMessages: async (
-			_source: any,
-			{ channelID, numMessages }: { channelID: number; numMessages: number; parseOrders: boolean },
-			//@ts-ignore
-			{ dataSources: { discordAPI } }
-		) => {
-			const data = await discordAPI.saveBotDiscordMessage(channelID, numMessages);
-			console.log('data from Resolver', data);
-			return data;
-		}
 	}
 };
